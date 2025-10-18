@@ -1,0 +1,38 @@
+<mat-toolbar color="primary" class="app-toolbar">
+  <div class="left-section">
+    <span class="brand">Smart Insight</span>
+  </div>
+
+  <nav class="nav-links">
+    <a mat-button routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+  </nav>
+
+  <div class="right-section">
+    <button mat-icon-button (click)="toggleTheme()">
+      <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    </button>
+
+    <!-- <button mat-icon-button aria-label="Notifications">
+      <mat-icon>notifications</mat-icon>
+    </button> -->
+
+    <button mat-icon-button aria-label="Account" [matMenuTriggerFor]="profile">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+
+    <mat-menu #profile="matMenu">
+      <button mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Redial</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Check voice mail</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>notifications_off</mat-icon>
+        <span>Disable alerts</span>
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>

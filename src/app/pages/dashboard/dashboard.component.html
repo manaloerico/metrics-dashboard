@@ -1,0 +1,19 @@
+<h2>Your Metrics</h2>
+<!-- <div *ngFor="let m of metrics" [routerLink]="['/metrics', m._id]">
+  <h3>{{ m.name }} ({{ m.unit }})</h3>
+  <p>Target: {{ m.target }}</p>
+  <ul>
+    <li *ngFor="let e of m.entries">{{ e.date | date }}: {{ e.value }}</li>
+  </ul>
+</div> -->
+
+<div class="metrics-grid">
+  <mat-card *ngFor="let metric of metrics" class="metric-card" [routerLink]="['/metrics', metric._id]">
+    <mat-icon color="primary">{{ metric.icon }}</mat-icon>
+    <div>
+      <h3>{{ metric.value }} ({{ metric.unit }})</h3>
+      <p>{{ metric.target }}</p>
+      <p>{{ metric.name }}</p>
+    </div>
+  </mat-card>
+</div>

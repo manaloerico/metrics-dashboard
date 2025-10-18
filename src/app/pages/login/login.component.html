@@ -1,0 +1,23 @@
+<p>
+  login works!
+</p>
+
+<div class="max-w-md mx-auto mt-20 p-6">
+  <h2>Login</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div appearance="outline" class="w-full">
+      <div>Email</div>
+      <input matInput formControlName="email" name="email" required />
+    </div>
+
+    <div appearance="outline" class="w-full">
+      <div>Password</div>
+      <input matInput type="password" formControlName="password" name="password" required />
+    </div>
+
+    <button mat-raised-button color="primary" class="w-full mt-4">Login</button>
+  </form>
+  <p class="mt-4 text-sm">
+    Don't have an account? <a routerLink="/register">Register</a>
+  </p>
+</div>

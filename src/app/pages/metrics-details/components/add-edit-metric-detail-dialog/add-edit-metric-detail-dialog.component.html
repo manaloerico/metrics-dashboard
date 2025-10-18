@@ -1,0 +1,23 @@
+<div class="dialog">
+  <h2 mat-dialog-title>Delete file</h2>
+  <mat-dialog-content class="dialog__content">
+    <form [formGroup]="metricForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Value</mat-label>
+        <input matInput type="number" placeholder="Input value here" formControlName="value" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" class="dialog__actions">
+    <button mat-raised-button mat-dialog-close>No</button>
+    <button mat-raised-button color="primary" cdkFocusInitial [disabled]="metricForm.invalid"
+      (click)="submitForm()">Ok</button>
+  </mat-dialog-actions>
+</div>
