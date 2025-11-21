@@ -4,7 +4,6 @@ import { AuthenticatedComponent } from './layout/authenticated/authenticated.com
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MetricsDetailsComponent } from './pages/metrics-details/metrics-details.component';
-import { TestPageComponent } from './pages/test-page/test-page.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -30,7 +29,6 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'metrics/:id', component: MetricsDetailsComponent },
-      { path: 'test', component: TestPageComponent },
     ],
   },
 
