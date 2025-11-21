@@ -1,14 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
-import { ActivatedRoute, ɵEmptyOutletComponent } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Chart, registerables } from 'chart.js';
 import { MetricsService } from '../../core/services/metrics/metrics.service';
 import { Metric } from '../../core/services/metrics/model/metric.model';
 import { AddEditMetricDetailDialogComponent } from './components/add-edit-metric-detail-dialog/add-edit-metric-detail-dialog.component';
+
+Chart.register(...registerables);
 @Component({
   selector: 'app-metrics-details',
   standalone: true,
@@ -19,7 +23,7 @@ import { AddEditMetricDetailDialogComponent } from './components/add-edit-metric
     MatDialogModule,
     MatTableModule,
     MatIconModule,
-    ɵEmptyOutletComponent,
+    MatButtonModule,
   ],
   templateUrl: './metrics-details.component.html',
   styleUrls: ['./metrics-details.component.scss'],
@@ -72,7 +76,7 @@ export class MetricsDetailsComponent implements OnInit {
         this.longestStreak = this.getLongestStreak(
           this.reports as unknown as any
         );
-        // this.renderChart(metric);
+        this.renderChart(reports);
       });
     }
   }
@@ -114,37 +118,38 @@ export class MetricsDetailsComponent implements OnInit {
       });
   }
 
-  // renderChart(metric: Metric) {
-  //   const ctx = document.getElementById('metricChart') as HTMLCanvasElement;
-  //   const labels = metric.history.map(h => h.date);
-  //   const values = metric.history.map(h => h.value);
-
-  //   new Chart(ctx, {
-  //     type: 'line',
-  //     data: {
-  //       labels,
-  //       datasets: [
-  //         {
-  //           label: metric.name,
-  //           data: values,
-  //           borderWidth: 2,
-  //           borderColor: '#3f51b5',
-  //           fill: false,
-  //           tension: 0.1,
-  //         },
-  //       ],
-  //     },
-  //     options: {
-  //       responsive: true,
-  //       plugins: {
-  //         legend: { display: false },
-  //       },
-  //       scales: {
-  //         y: { beginAtZero: true },
-  //       },
-  //     },
-  //   });
-  // }
+  renderChart(metric: { date: string; value: number; achieved: boolean }[]) {
+    const ctx = document.getElementById('metricChart') as HTMLCanvasElement;
+    const filledData = this.fillMissingDates(metric);
+    const labels = filledData.map((h) => h.date);
+    const values = filledData.map((h) => h.value);
+    console.log(filledData);
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Metric Values',
+            data: values,
+            borderWidth: 2,
+            borderColor: '#3f51b5',
+            fill: false,
+            tension: 0.1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+        },
+        scales: {
+          y: { beginAtZero: true },
+        },
+      },
+    });
+  }
 
   getLongestStreak(data: { date: string; achieved: boolean }[]) {
     if (!data?.length) {
@@ -202,5 +207,26 @@ export class MetricsDetailsComponent implements OnInit {
     }
 
     return longest;
+  }
+
+  fillMissingDates(data: { date: string; value: number }[]) {
+    const end = new Date(data[0].date);
+    // const start = new Date(data[data.length - 1].date);
+    const start = new Date(end);
+    start.setDate(start.getDate() - 10);
+    console.log('Start date:', start);
+
+    const filled: { date: string; value: number }[] = [];
+    const current = new Date(start);
+    while (current <= end) {
+      const dateStr = current.toISOString().split('T')[0]; // "YYYY-MM-DD"
+      const existing = data.find((d) => d.date === dateStr);
+
+      filled.push(existing || { date: dateStr, value: 0 });
+
+      current.setDate(current.getDate() + 1); // Move to next day
+    }
+
+    return filled;
   }
 }

@@ -1,19 +1,37 @@
-<h2>Your Metrics</h2>
-<!-- <div *ngFor="let m of metrics" [routerLink]="['/metrics', m._id]">
-  <h3>{{ m.name }} ({{ m.unit }})</h3>
-  <p>Target: {{ m.target }}</p>
-  <ul>
-    <li *ngFor="let e of m.entries">{{ e.date | date }}: {{ e.value }}</li>
-  </ul>
-</div> -->
+<div class="dashboard-container">
+  <h2 class="page-title">My Metrics</h2>
 
-<div class="metrics-grid">
-  <mat-card *ngFor="let metric of metrics" class="metric-card" [routerLink]="['/metrics', metric._id]">
-    <mat-icon color="primary">{{ metric.icon }}</mat-icon>
-    <div>
-      <h3>{{ metric.value }} ({{ metric.unit }})</h3>
-      <p>{{ metric.target }}</p>
-      <p>{{ metric.name }}</p>
+  <div class="metric-grid row">
+    <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let metric of metrics">
+      <mat-card class="metric-card " [routerLink]="['/metrics', metric._id]">
+        <mat-card-header>
+          <div mat-card-avatar class="metric-avatar">
+            <mat-icon>track_changes</mat-icon>
+          </div>
+          <mat-card-title>{{ metric.name }}</mat-card-title>
+          <mat-card-subtitle>{{ metric.category || 'General' }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p class="goal">🎯 Target: {{ metric.target }} {{ metric.unit }}</p>
+          <p class="progress">📈 Current: {{ metric.value || 0 }}</p>
+
+          <mat-progress-bar [value]="(metric.value / metric.target) * 100" color="primary"></mat-progress-bar>
+
+          <p class="streak">🔥 Streak: {{ metric.currentStreak || 0 }} days</p>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button matButton="filled" color="primary" [routerLink]="['/metrics', metric._id]">
+            View Details
+          </button>
+        </mat-card-actions>
+      </mat-card>
     </div>
-  </mat-card>
+  </div>
+
+  <!-- Floating Add Button -->
+  <button mat-fab color="primary" class="add-btn">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

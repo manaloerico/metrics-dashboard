@@ -2,67 +2,79 @@
   <h2>Metric Details</h2>
 
   <mat-card class="page__card">
-
-    <div *ngIf="metric">
-      <div class="page__card-header">
-        <button mat-button color="primary" (click)="openDialog()">Add</button>
+    @if(metric){
+    <div class="page__card-header">
+      <div class="page__card-header-title">
 
         <h2 class="text-xl font-semibold mb-2"> You selected: {{ metric.name }}</h2>
-
-        <div class="mb-4">
-          <strong>{{ metric.value }}</strong> / {{ metric.target }} {{ metric.unit }}
-          <mat-progress-bar [value]="(metric.value / metric.target) * 100" color="primary">
-          </mat-progress-bar>
-        </div>
-        <div class="mb-4">
-          <strong> Success Rate: </strong> {{ successRate }}
-        </div>
-
-        <div class="mb-4" *ngIf="longestStreak?.length > 0">
-          <strong> Longest Streak: </strong> {{ longestStreak.length }} days
-          (from {{ longestStreak.startDate | date }} to {{ longestStreak.endDate | date }})
-        </div>
-        <ng-container *ngIf="reports?.length !== 0">
-          <table mat-table [dataSource]="reports">
-            <ng-container matColumnDef="date">
-              <th mat-header-cell *matHeaderCellDef>Date</th>
-              <td mat-cell *matCellDef="let r">{{ r.date | date }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="value">
-              <th mat-header-cell *matHeaderCellDef>Value</th>
-              <td mat-cell *matCellDef="let r">{{ r.value }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="achieved">
-              <th mat-header-cell *matHeaderCellDef>Goal Met</th>
-              <td mat-cell *matCellDef="let r">
-                <mat-icon color="{{ r.achieved ? 'primary' : 'warn' }}">
-                  {{ r.achieved ? 'check_circle' : 'cancel' }}
-                </mat-icon>
-              </td>
-            </ng-container> <ng-container matColumnDef="details">
-              <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let r">
-                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
-                  <mat-icon>more_vert</mat-icon>
-                </button>
-              </td>
-            </ng-container>
-
-
-            <tr mat-header-row *matHeaderRowDef="['date', 'value', 'achieved','details']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['date', 'value', 'achieved','details'];"></tr>
-          </table>
-        </ng-container>
+        <button matMiniFab color="primary" (click)="openDialog()">
+          <mat-icon>add</mat-icon>
+        </button>
 
       </div>
-    </div>
+      <div class="mb-4">
+        <p class="goal">🎯 Target: {{ metric.target }} {{ metric.unit }}</p>
+        <p class="progress">📈 Current: {{ metric.value || 0 }}</p>
+
+        <mat-progress-bar [value]="(metric.value / metric.target) * 100" color="primary"></mat-progress-bar>
+
+        <p class="streak">🔥 Streak: {{ longestStreak.length || 0 }} days</p>
+
+        <!-- <strong>{{ metric.value }}</strong> / {{ metric.target }} {{ metric.unit }}
+          <mat-progress-bar [value]="(metric.value / metric.target) * 100" color="primary">
+          </mat-progress-bar> -->
+      </div>
+      <div class="mb-4">
+        <mat-icon>
+          military_tech
+        </mat-icon>Success Rate: {{ successRate }}
+      </div>
+
+      <div class="mb-4" *ngIf="longestStreak?.length > 0">
+        <strong> 🔥🔥🔥 Longest Streak: </strong> {{ longestStreak.length }} days
+        (from {{ longestStreak.startDate | date }} to {{ longestStreak.endDate | date }})
+      </div>
+
+    </div> }
   </mat-card>
   <br>
-  <mat-card>
+  <mat-card class="page__card-chart">
 
     <canvas id="metricChart" height="120"></canvas>
 
   </mat-card>
+  <br>
+  @if(reports && reports.length !== 0){
+  <table mat-table [dataSource]="reports">
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let r">{{ r.date | date }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="value">
+      <th mat-header-cell *matHeaderCellDef>Value</th>
+      <td mat-cell *matCellDef="let r">{{ r.value }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="achieved">
+      <th mat-header-cell *matHeaderCellDef>Goal Met</th>
+      <td mat-cell *matCellDef="let r">
+        <mat-icon color="{{ r.achieved ? 'primary' : 'warn' }}">
+          {{ r.achieved ? 'check_circle' : 'cancel' }}
+        </mat-icon>
+      </td>
+    </ng-container> <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let r">
+        <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="['date', 'value', 'achieved','details']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['date', 'value', 'achieved','details'];"></tr>
+  </table>
+  }
 </div>
