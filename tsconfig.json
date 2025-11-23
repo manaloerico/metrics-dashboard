@@ -16,18 +16,27 @@
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
+    "paths": {
+      "@session-management": ["projects/session-management/src/public-api.ts"],
+      "@session-management/*": ["projects/session-management/src/lib/*"]
+    },
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "references": [
+    {
+      "path": "./projects/session-management/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/session-management/tsconfig.spec.json"
+    }
+  ]
 }

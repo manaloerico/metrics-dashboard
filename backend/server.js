@@ -4,6 +4,8 @@ import express from "express";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
 import metricRoutes from "./routes/metrics.js";
+import profileRoutes from "./routes/profile.js";
+import refreshRoutes from "./routes/refresh.js";
 
 dotenv.config();
 
@@ -15,6 +17,8 @@ app.use(express.json());
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/metrics", metricRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/refresh", refreshRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)

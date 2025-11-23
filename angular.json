@@ -87,6 +87,36 @@
           }
         }
       }
+    },
+    "session-management": {
+      "projectType": "library",
+      "root": "projects/session-management",
+      "sourceRoot": "projects/session-management/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/session-management/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/session-management/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/session-management/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   },
   "schematics": {
