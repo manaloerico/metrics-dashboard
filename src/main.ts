@@ -5,7 +5,7 @@
 // platformBrowserDynamic().bootstrapModule(AppModule)
 //   .catch(err => console.error(err));
 
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
@@ -18,11 +18,12 @@ import { provideRouter } from '@angular/router';
 import { SessionManagementModule } from '@session-management';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routing';
+import { AuthInterceptor } from './app/core/interceptors/auth.interceptors';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([AuthInterceptor])),
     importProvidersFrom(BrowserAnimationsModule),
     provideAnimations(),
     importProvidersFrom(MatNativeDateModule),

@@ -2,12 +2,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/app/environments/environtment';
 import { Metric } from './model/metric.model';
 
 @Injectable({ providedIn: 'root' })
 export class MetricsService {
-  private apiUrl = `${environment.apiUrl}/metrics`;
+  private apiUrl = `metrics`;
 
   constructor(private http: HttpClient) {}
 

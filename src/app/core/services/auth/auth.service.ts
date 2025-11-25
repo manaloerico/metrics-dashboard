@@ -3,11 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RefreshTokenService } from '@session-management/service/refresh-token/refresh-token.service';
 import { tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environtment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = `${environment.apiUrl}/auth`;
+  private apiUrl = `auth`;
   private tokenKey = 'jwt_token';
   // private readonly sessionService = inject(SessionManagementService);
   private readonly sessionService = inject(RefreshTokenService);
